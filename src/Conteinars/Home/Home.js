@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Footer from '../../Component/Footer/Footer';
+import Headar from '../../Component/Hedar/Hedar';
 
-function Home(props) {
+function Home(props) { 
     return (
 
         <div>
+            <Headar />
             <section id="hero" className="d-flex align-items-center">
                 <div className="container">
                     <h1>Welcome to City <br />Multispeciality Hospital</h1>
@@ -263,6 +266,7 @@ function Home(props) {
                     </div>
                 </section>
             </main>
+            <Footer />
         </div>
 
     );
