@@ -10,6 +10,7 @@ import { Route, Switch } from 'react-router-dom';
 import Headar from './Component/Hedar/Hedar';
 import Footer from './Component/Footer/Footer';
 import Auth from './Conteinars/Auth/Auth';
+import Medicine from './Conteinars/Medicine/Medicine';
 
 
 
@@ -42,6 +43,7 @@ function App() {
         <Route exact path={"/About"} component={About} />
         <Route exact path={"/Doctors"} component={Doctors} />
         <Route exact path={"/Contact"} component={Contact} />
+        <Route exact path={"/Medicine"} component={Medicine} />
         <Route exact path={"/Appointment"} component={Appointment} />
         <Route exact path={"/auth"} component={Auth} />
       </Switch>
