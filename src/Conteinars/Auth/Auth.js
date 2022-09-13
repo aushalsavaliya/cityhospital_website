@@ -16,13 +16,13 @@ function Auth(props) {
 
     let authschema;
 
-    if (userType === 'Singup') {
+    if (userType === 'Singup' && reset === false) {
         authschema = {
             name: yup.string().required("please Enter your name"),
             email: yup.string().required("please Enter Valid email").email("please Enter email"),
             password: yup.string().required("Enter your Password").min(8),
         }
-    } else if (userType === 'Login') {
+    } else if (userType === 'Login' && reset === false) {
         authschema = {
             email: yup.string().required("please Enter Valid email").email("please Enter email"),
             password: yup.string().required("Enter your Password").min(8),
