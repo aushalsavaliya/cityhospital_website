@@ -92,7 +92,7 @@ function Auth(props) {
                                                 data-rule="minlen:4"
                                                 data-msg="Please enter at least 4 chars"
                                                 onChange={handleChange}
-                                                onSubmit={handleSubmit}
+                                                
                                             />
                                             <p>{errors.name}</p>
                                             <div className="validate" />
@@ -110,7 +110,7 @@ function Auth(props) {
                                     data-rule="email"
                                     data-msg="Please enter a valid email"
                                     onChange={handleChange}
-                                    onSubmit={handleSubmit}
+                                    
                                 />
                                 <p>{errors.email}</p>
                                 <div className="validate" />
@@ -131,7 +131,7 @@ function Auth(props) {
                                             data-rule="minlen:4"
                                             data-msg="Please enter at least 4 chars"
                                             onChange={handleChange}
-                                            onSubmit={handleSubmit}
+                                            
                                         />
                                         <p>{errors.password}</p>
                                         <div className="validate" />
