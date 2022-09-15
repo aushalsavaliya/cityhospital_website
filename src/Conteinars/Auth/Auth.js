@@ -46,7 +46,7 @@ function Auth(props) {
         }
     }
     let schema = yup.object().shape(authschema);
-
+    
     const formik = useFormik({
         initialValues: init,
         validationSchema: schema,
@@ -54,7 +54,7 @@ function Auth(props) {
             console.log(values);
         },
     });
-
+    
     const { handleChange, errors, handleSubmit } = formik;
 
 
@@ -72,8 +72,8 @@ function Auth(props) {
                                 <h2>Signup</h2>
                     }
                 </div>
-                <Formik>
-                    <Form action method="post" className="php-email-form">
+                <Formik value={formik}>
+                    <Form onSubmit={handleSubmit} action method="post" className="php-email-form">
 
                         <div className="col-md-4 form-group">
                             {
@@ -92,7 +92,6 @@ function Auth(props) {
                                                 data-rule="minlen:4"
                                                 data-msg="Please enter at least 4 chars"
                                                 onChange={handleChange}
-                                                
                                             />
                                             <p>{errors.name}</p>
                                             <div className="validate" />
@@ -110,7 +109,6 @@ function Auth(props) {
                                     data-rule="email"
                                     data-msg="Please enter a valid email"
                                     onChange={handleChange}
-                                    
                                 />
                                 <p>{errors.email}</p>
                                 <div className="validate" />
@@ -131,7 +129,6 @@ function Auth(props) {
                                             data-rule="minlen:4"
                                             data-msg="Please enter at least 4 chars"
                                             onChange={handleChange}
-                                            
                                         />
                                         <p>{errors.password}</p>
                                         <div className="validate" />
@@ -147,8 +144,6 @@ function Auth(props) {
                                     :
                                     <div className="text-center"><button type="submit">Signup</button></div>
                         }
-
-
                     </Form>
                 </Formik>
                 {
