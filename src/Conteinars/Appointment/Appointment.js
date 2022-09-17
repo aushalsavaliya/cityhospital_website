@@ -10,16 +10,16 @@ function Appointment(props) {
         name: yup.string().required("please Enter your name"),
         email: yup.string().required("please Enter email").email("please Enter Valid email"),
         phone: yup.string().required("please Enter your Phone Number"),
-        appointment_data: yup.string().required("please Enter your Appointment Data"),
-        select_department: yup.string().required("select your Department"),
+        date: yup.string().required("please Enter your Appointment Data"),
+        department: yup.string().required("select your Department"),
         message: yup.string().required("please Enter your message"),
     }
     initapp ={
         name: '',
         email: '',
         phone: '',
-        appointment_data: '',
-        select_department: '',
+        date: '',
+        department: '',
         message: '',
     }
 
@@ -33,7 +33,7 @@ function Appointment(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit } = formik;
+    const { handleChange, errors, handleSubmit, touched, handleBlur } = formik;
 
     return (
         <div>
@@ -58,8 +58,9 @@ function Appointment(props) {
                                         data-rule="minlen:4"
                                         data-msg="Please enter at least 4 chars"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
-                                    <p>{errors.name}</p>
+                                    <p>{errors.name && touched.name ? errors.name : ''}</p>
                                     <div className="validate" />
                                 </div>
                                 <div className="col-md-4 form-group mt-3 mt-md-0">
@@ -72,8 +73,9 @@ function Appointment(props) {
                                         data-rule="email"
                                         data-msg="Please enter a valid email"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
-                                    <p>{errors.email}</p>
+                                    <p>{errors.email && touched.name ? errors.email : ''}</p>
                                     <div className="validate" />
                                 </div>
                                 <div className="col-md-4 form-group mt-3 mt-md-0">
@@ -86,8 +88,9 @@ function Appointment(props) {
                                         data-rule="minlen:4"
                                         data-msg="Please enter at least 4 chars"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
-                                    <p>{errors.phone}</p>
+                                    <p>{errors.phone && touched.phone ? errors.phone : ''}</p>
                                     <div className="validate" />
                                 </div>
                             </div>
@@ -102,8 +105,9 @@ function Appointment(props) {
                                         data-rule="minlen:4"
                                         data-msg="Please enter at least 4 chars"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                     />
-                                    <p>{errors.appointment_data}</p>
+                                    <p>{errors.date && touched.date ? errors.date :''}</p>
                                     <div className="validate" />
                                 </div>
                                 <div className="col-md-4 form-group mt-3">
@@ -112,13 +116,14 @@ function Appointment(props) {
                                         id="department"
                                         className="form-select"
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         >
                                         <option value>Select Department</option>
                                         <option value="Department 1">Department 1</option>
                                         <option value="Department 2">Department 2</option>
                                         <option value="Department 3">Department 3</option>
                                     </select>
-                                    <p>{errors.select_department}</p>
+                                    <p>{errors.department && touched.department ? errors.department : ''}</p>
                                     <div className="validate" />
                                 </div>
                             </div>
@@ -130,8 +135,9 @@ function Appointment(props) {
                                     placeholder="Message (Optional)"
                                     defaultValue={""}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                 />
-                                <p>{errors.message}</p>
+                                <p>{errors.message && touched.message ? errors.message : ''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="mb-3">

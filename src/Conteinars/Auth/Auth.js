@@ -55,7 +55,7 @@ function Auth(props) {
         },
     });
     
-    const { handleChange, errors, handleSubmit } = formik;
+    const { handleChange, errors, handleSubmit, touched, handleBlur } = formik;
 
 
     return (
@@ -92,8 +92,9 @@ function Auth(props) {
                                                 data-rule="minlen:4"
                                                 data-msg="Please enter at least 4 chars"
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                             />
-                                            <p>{errors.name}</p>
+                                            <p>{errors.name && touched.name ? errors.name :''}</p>
                                             <div className="validate" />
                                         </div>
                             }
@@ -109,8 +110,9 @@ function Auth(props) {
                                     data-rule="email"
                                     data-msg="Please enter a valid email"
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                 />
-                                <p>{errors.email}</p>
+                                <p>{errors.email && touched.email ? errors.email : ''}</p>
                                 <div className="validate" />
                             </div>
                         </div>
@@ -129,8 +131,9 @@ function Auth(props) {
                                             data-rule="minlen:4"
                                             data-msg="Please enter at least 4 chars"
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
-                                        <p>{errors.password}</p>
+                                        <p>{errors.password && touched.password ? errors.password : ''}</p>
                                         <div className="validate" />
                                     </div>
                                 </div>

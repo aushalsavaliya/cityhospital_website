@@ -29,7 +29,7 @@ function Contact(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit } = formik;
+    const { handleChange, errors, handleSubmit, touched, handleBlur } = formik;
 
     return (
         <div>
@@ -75,8 +75,9 @@ function Contact(props) {
                                                 placeholder="Your Name"
                                                 required
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                             />
-                                            <p>{errors.name}</p>
+                                            <p>{errors.name && touched.name ? errors.name : ''}</p>
                                         </div>
                                         <div className="col-md-6 form-group mt-3 mt-md-0">
                                             <input
@@ -87,8 +88,9 @@ function Contact(props) {
                                                 placeholder="Your Email"
                                                 required
                                                 onChange={handleChange}
+                                                onBlur={handleBlur}
                                             />
-                                            <p>{errors.email}</p>
+                                            <p>{errors.email && touched.email ? errors.email :''}</p>
                                         </div>
                                     </div>
                                     <div className="form-group mt-3">
@@ -100,8 +102,9 @@ function Contact(props) {
                                             placeholder="Subject"
                                             required
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
-                                        <p>{errors.subject}</p>
+                                        <p>{errors.subject && touched.subject ? errors.subject : ''}</p>
                                     </div>
                                     <div className="form-group mt-3">
                                         <textarea
@@ -111,8 +114,9 @@ function Contact(props) {
                                             placeholder="Message"
                                             required defaultValue={""}
                                             onChange={handleChange}
+                                            onBlur={handleBlur}
                                         />
-                                        <p>{errors.message}</p>
+                                        <p>{errors.message && touched.message ? errors.message : ''}</p>
                                     </div>
                                     <div className="my-3">
                                         <div className="loading">Loading</div>
