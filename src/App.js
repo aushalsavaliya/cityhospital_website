@@ -1,16 +1,18 @@
 // import logo from './logo.svg';
 import './App.css';
-import Home from './Conteinars/Home/Home';
-import About from './Conteinars/Home/About/About';
-import Appointment from './Conteinars/Appointment/Appointment';
-import Contact from './Conteinars/Home/Contact/Contact';
-import Departments from './Conteinars/Departments/Departments'
-import Doctors from './Conteinars/Doctors/Doctors';
+// import Home from './Conteinars/Home/Home';
+// import About from './Conteinars/Home/About/About';
+// import Appointment from './Conteinars/Appointment/Appointment';
+// import Contact from './Conteinars/Home/Contact/Contact';
+// import Departments from './Conteinars/Departments/Departments'
+// import Doctors from './Conteinars/Doctors/Doctors';
 import { Route, Switch } from 'react-router-dom';
-import Headar from './Component/Hedar/Hedar';
-import Footer from './Component/Footer/Footer';
-import Auth from './Conteinars/Auth/Auth';
-import Medicine from './Conteinars/Medicine/Medicine';
+// import Headar from './Component/Hedar/Hedar';
+// import Footer from './Component/Footer/Footer';
+// import Auth from './Conteinars/Auth/Auth';
+// import Medicine from './Conteinars/Medicine/Medicine';
+import Leyout from './Admin/Container/Leyout';
+import MedicineAdmin from './Admin/Component/MedicineAdmin';
 
 
 
@@ -36,8 +38,8 @@ function App() {
       {/* <Switch>
       <Loadinghome Loading = {Loading} />
       </Switch> */}
-      <Headar />
-      <Switch>
+      {/* <Headar /> */}
+      {/* <Switch>
         <Route exact path={"/"} component={Home} />
         <Route exact path={"/Departments"} component={Departments} />
         <Route exact path={"/About"} component={About} />
@@ -46,8 +48,14 @@ function App() {
         <Route exact path={"/Medicine"} component={Medicine} />
         <Route exact path={"/Appointment"} component={Appointment} />
         <Route exact path={"/auth"} component={Auth} />
-      </Switch>
-      <Footer />
+      </Switch> */}
+      {/* <Footer /> */}
+
+      <Leyout>
+        <Switch>
+          <Route exact path={"/medicineadmin"} component={MedicineAdmin} />
+        </Switch>
+      </Leyout>
 
     </>
   );
