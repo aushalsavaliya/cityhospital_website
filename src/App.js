@@ -13,6 +13,7 @@ import { Route, Switch } from 'react-router-dom';
 // import Medicine from './Conteinars/Medicine/Medicine';
 import Leyout from './Admin/Container/Leyout';
 import MedicineAdmin from './Admin/Component/MedicineAdmin';
+import DoctorAdmin from './Admin/Component/DoctorAdmin';
 
 
 
@@ -54,6 +55,7 @@ function App() {
       <Leyout>
         <Switch>
           <Route exact path={"/medicineadmin"} component={MedicineAdmin} />
+          <Route exact path={"/DoctorAdmin"} component={DoctorAdmin} />
         </Switch>
       </Leyout>
 
