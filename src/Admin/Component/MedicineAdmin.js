@@ -22,10 +22,21 @@ function MedicineAdmin(props) {
     setOpen(false);
   };
 
-  const handladd = (values) =>{
+  const handladd = (values) => {
+
+    let localData = JSON.parse(localStorage.getItem("medicines"))
+    let id = Math.floor(Math.random() * 100);
+    let data = { id: id, ...values }
+
+    console.log(localData, data);
+    if (localData === null) {
+      localStorage.setItem("Medicines", JSON.stringify([data]))
+    } else {
+      localData.push(data);
+      localStorage.setItem("Medicines", JSON.stringify(localData))
+    }
     setOpen(false);
-   formik.resetForm();
-   console.log(values);
+    formik.resetForm();
   }
 
   let schema = yup.object().shape({
