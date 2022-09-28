@@ -9,15 +9,21 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function MedicineAdmin(props) {
 
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState([]);
+  const [dopen, setdopen] = React.useState(false);
+  const [did, setdid] = React.useState(false);
+
+
 
   const localData = () => {
-    let localData = JSON.parse(localStorage.getItem('medicines'));
+    let localData = JSON.parse(localStorage.getItem('Medicines'));
     setData(localData);
   }
 
@@ -29,20 +35,33 @@ function MedicineAdmin(props) {
     setOpen(true);
   };
 
+  const handleDelete = (data) => {
+    setdopen(true);
+    setdid(data.id)
+  }
+
+  const handelDeleteData = () => {
+    let localData = JSON.parse(localStorage.getItem("Medicines"))
+    let Ddata = localData.filter((l) => l.id !== did)
+
+    localStorage.setItem("Medicin", JSON.stringify(Ddata))
+    setData(Ddata)
+    setdopen(false)
+
+    console.log(Ddata);
+  }
+
   const handleClose = () => {
     setOpen(false);
   };
 
+
   const handladd = (values) => {
 
-    let localData = JSON.parse(localStorage.getItem('medicines'))
-
+    let localData = JSON.parse(localStorage.getItem('Medicines'))
     let id = Math.floor(Math.random() * 100);
-
     let data = { id: id, ...values }
-
     console.log(localData, data);
-
     if (localData === null) {
       localStorage.setItem("Medicines", JSON.stringify([data]))
     } else {
@@ -76,7 +95,7 @@ function MedicineAdmin(props) {
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'pirce', headerName: 'Pirce', width: 130 },
+    { field: 'Pirce', headerName: 'Pirce', width: 130 },
     {
       field: 'expiry',
       headerName: 'expiry',
@@ -88,6 +107,16 @@ function MedicineAdmin(props) {
       headerName: 'qntity',
       type: 'number',
       width: 90,
+    },
+    {
+      field: '',
+      headerName: 'Action',
+      width: 90,
+      renderCell: (params) => (
+        <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
+          <DeleteIcon />
+        </IconButton>
+      )
     },
   ];
 
@@ -121,7 +150,7 @@ function MedicineAdmin(props) {
                   margin="dense"
                   id="name"
                   name="name"
-                  label="Madicine"
+                  label="Medicines"
                   fullWidth
                   variant="standard"
                   onChange={handleChange}
@@ -168,6 +197,13 @@ function MedicineAdmin(props) {
               </DialogContent>
             </Form>
           </Formik>
+        </Dialog>
+        <Dialog open={dopen} onClose={handleClose}>
+          <DialogTitle>Delete Medicin</DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose}>No</Button>
+            <Button onClick={() => handelDeleteData()}>YES</Button>
+          </DialogActions>
         </Dialog>
       </div>
     </div>
