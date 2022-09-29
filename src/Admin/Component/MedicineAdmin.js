@@ -11,6 +11,7 @@ import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 function MedicineAdmin(props) {
@@ -19,6 +20,7 @@ function MedicineAdmin(props) {
   const [data, setData] = useState([]);
   const [dopen, setdopen] = React.useState(false);
   const [did, setdid] = React.useState(false);
+  const [Update, setUpdate] = useState(false);
 
 
 
@@ -33,6 +35,7 @@ function MedicineAdmin(props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setUpdate(false);
   };
 
   const handleDelete = (data) => {
@@ -44,7 +47,7 @@ function MedicineAdmin(props) {
     let localData = JSON.parse(localStorage.getItem("Medicines"))
     let Ddata = localData.filter((l) => l.id !== did)
 
-    localStorage.setItem("Medicin", JSON.stringify(Ddata))
+    localStorage.setItem("Medicines", JSON.stringify(Ddata))
     setData(Ddata)
     setdopen(false)
 
@@ -54,6 +57,13 @@ function MedicineAdmin(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleedit = (data) => {
+    setOpen(true);
+    console.log(data);
+    formik.setValues(data);
+    setUpdate(true);
+  }
 
 
   const handladd = (values) => {
@@ -113,15 +123,20 @@ function MedicineAdmin(props) {
       headerName: 'Action',
       width: 90,
       renderCell: (params) => (
-        <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
-          <DeleteIcon />
-        </IconButton>
+        <>
+          <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={() => handleedit(params.row)}>
+            <EditIcon />
+          </IconButton>
+        </>
       )
     },
   ];
 
 
-  const { handleBlur, handleChange, handleSubmit, errors, touched } = formik;
+  const { handleBlur, handleChange, handleSubmit, values, errors, touched } = formik;
 
 
   return (
@@ -153,6 +168,7 @@ function MedicineAdmin(props) {
                   label="Medicines"
                   fullWidth
                   variant="standard"
+                  value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -164,6 +180,7 @@ function MedicineAdmin(props) {
                   label="Pirce"
                   fullWidth
                   variant="standard"
+                  value={values.Pirce}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -175,6 +192,7 @@ function MedicineAdmin(props) {
                   label="Qntity"
                   fullWidth
                   variant="standard"
+                  value={values.qnt}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -186,13 +204,14 @@ function MedicineAdmin(props) {
                   label="Expiry"
                   fullWidth
                   variant="standard"
+                  value={values.expiry}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
                 <p>{errors.expiry && touched.expiry ? errors.expiry : ''}</p>
                 <DialogActions>
                   <Button onClick={handleClose}>Cancel</Button>
-                  <Button type="submit">Add</Button>
+                  <Button type="submit">{Update ? "Update" : "Add"}</Button>
                 </DialogActions>
               </DialogContent>
             </Form>
