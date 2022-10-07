@@ -6,21 +6,40 @@ function Appointment(props) {
 
     let appoinschema, initapp;
 
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
     appoinschema = {
-        name: yup.string().required("please Enter your name"),
+        name: yup.string().required("please Enter your name")
+            .min(2, "Mininum 2 characters")
+            .max(30, "Maximum 30 characters")
+            .matches(
+                /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
+                'please enter valid name'
+            ),
+
+
         email: yup.string().required("please Enter email").email("please Enter Valid email"),
-        phone: yup.string().required("please Enter your Phone Number"),
-        date: yup.string().required("please Enter your Appointment Data"),
+
+        phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').min(10, " required 10 character ").max(10, " maximum 10 character required"),
+        date: yup.string().required("please Enter your Appointment Data")
+            .min(new Date('01-01-2000'))
+            .max(new Date())
+            .required(),
         department: yup.string().required("select your Department"),
-        message: yup.string().required("please Enter your message"),
+        message: yup.string().min(10, "minimum required 10 diget").max(50, "maximum required 50 giget")
+            .required("please Enter your message"),
+        Gender: yup.string().required("please select"),
+        checkbox: yup.array().min(1).of(yup.string().required()).required(),
     }
-    initapp ={
+    initapp = {
         name: '',
         email: '',
         phone: '',
         date: '',
         department: '',
         message: '',
+        Gender: '',
+        checkbox: ''
     }
 
     let schema = yup.object().shape(appoinschema);
@@ -33,7 +52,7 @@ function Appointment(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit, touched, handleBlur } = formik;
+    const { handleChange, errors, handleSubmit, touched, handleBlur, values } = formik;
 
     return (
         <div>
@@ -56,6 +75,7 @@ function Appointment(props) {
                                         id="name"
                                         placeholder="Your Name"
                                         data-rule="minlen:4"
+                                        value={values.name}
                                         data-msg="Please enter at least 4 chars"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -69,6 +89,7 @@ function Appointment(props) {
                                         className="form-control"
                                         name="email"
                                         id="email"
+                                        value={values.email}
                                         placeholder="Your Email"
                                         data-rule="email"
                                         data-msg="Please enter a valid email"
@@ -84,6 +105,7 @@ function Appointment(props) {
                                         className="form-control"
                                         name="phone"
                                         id="phone"
+                                        value={values.phone}
                                         placeholder="Your Phone"
                                         data-rule="minlen:4"
                                         data-msg="Please enter at least 4 chars"
@@ -101,13 +123,14 @@ function Appointment(props) {
                                         name="date"
                                         className="form-control datepicker"
                                         id="date"
+                                        value={values.date}
                                         placeholder="Appointment Date"
                                         data-rule="minlen:4"
                                         data-msg="Please enter at least 4 chars"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
-                                    <p>{errors.date && touched.date ? errors.date :''}</p>
+                                    <p>{errors.date && touched.date ? errors.date : ''}</p>
                                     <div className="validate" />
                                 </div>
                                 <div className="col-md-4 form-group mt-3">
@@ -117,7 +140,8 @@ function Appointment(props) {
                                         className="form-select"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        >
+                                        value={values.department}
+                                    >
                                         <option value>Select Department</option>
                                         <option value="Department 1">Department 1</option>
                                         <option value="Department 2">Department 2</option>
@@ -136,10 +160,72 @@ function Appointment(props) {
                                     defaultValue={""}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    value={values.message}
                                 />
                                 <p>{errors.message && touched.message ? errors.message : ''}</p>
                                 <div className="validate" />
                             </div>
+                            <div className="col-md-4 form-group mt-3">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="Gender"
+                                        id="Gender"
+                                        value={values.Gender}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    Male
+                                </label>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="Gender"
+                                        id="Gender"
+                                        value={values.Gender}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    Female
+                                </label>
+                                <p>{errors.Gender && touched.Gender ? errors.Gender : ''}</p>
+                                <div className="validate" />
+                            </div>
+                            <div className="col-md-4 form-group mt-3 mt-md-0">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="checkbox"
+                                        value={"checkbox"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    cricket
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="checkbox"
+                                        value={"checkbox"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    Music
+                                </label>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="checkbox"
+                                        value={"checkbox"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                    />
+                                    Traveling
+                                </label>
+                                <p>{errors.checkbox && touched.checkbox ? errors.checkbox : ''}</p>
+                                <div className="validate" />
+                            </div>
+
                             <div className="mb-3">
                                 <div className="loading">Loading</div>
                                 <div className="error-message" />

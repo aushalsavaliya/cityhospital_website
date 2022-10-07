@@ -18,12 +18,12 @@ function MedicineAdmin(props) {
 
     const [open, setOpen] = React.useState(false);
     const [Update, setUpdate] = useState(false);
-    const [did, setdid] = useState(false);
-    const [dopen, setdOpen] = React.useState(false);
+    const [DiD, setDiD] = useState(false);
+    const [DoPen, setdOpen] = React.useState(false);
     const [data, setData] = useState([]);
 
     const getData = () => {
-        let localData = JSON.parse(localStorage.getItem('Doctor'));
+        let localData = JSON.parse(localStorage.getItem('patient'));
         if (localData !== null) {
             setData(localData);
         }
@@ -31,22 +31,22 @@ function MedicineAdmin(props) {
 
     const handleDelete = (data) => {
         setdOpen(true)
-        setdid(data.id)
+        setDiD(data.id)
     }
 
     const handleedit = (data) => {
         setOpen(true)
         console.log(data);
-        formik.setValues(data) 
+        formik.setValues(data);
         setUpdate(true);
     }
 
 
     const handledeletedata = () => {
-        let localData = JSON.parse(localStorage.getItem('Doctor'));
-        let Ddata = localData.filter((l) => l.id !== did);
+        let localData = JSON.parse(localStorage.getItem('patient'));
+        let Ddata = localData.filter((l) => l.id !== DiD);
 
-        localStorage.setItem("Doctor", JSON.stringify(Ddata))
+        localStorage.setItem("patient", JSON.stringify(Ddata))
         setData(Ddata);
         setdOpen(false);
 
@@ -69,9 +69,8 @@ function MedicineAdmin(props) {
         formik.resetForm();
         setdOpen(false);
     };
-
     const handleUpdatedata = (values) => {
-        let localData = JSON.parse(localStorage.getItem("Doctor"))
+        let localData = JSON.parse(localStorage.getItem("patient"))
         let uData = localData.map((l) => {
             if (l.id === values.id) {
                 return values;
@@ -81,22 +80,22 @@ function MedicineAdmin(props) {
         })
 
         setData(uData);
-        localStorage.setItem("Doctor", JSON.stringify(uData));
+        localStorage.setItem("patient", JSON.stringify(uData));
         handleClose();
 
     }
 
     const handleadd = (values) => {
 
-        let localData = JSON.parse(localStorage.getItem("Doctor"))
+        let localData = JSON.parse(localStorage.getItem("patient"))
         let id = Math.floor(Math.random() * 100);
         let data = { id: id, ...values }
         console.log(localData, data);
         if (localData === null) {
-            localStorage.setItem("Doctor", JSON.stringify([data]))
+            localStorage.setItem("patient", JSON.stringify([data]))
         } else {
             localData.push(data);
-            localStorage.setItem("Doctor", JSON.stringify(localData))
+            localStorage.setItem("patient", JSON.stringify(localData))
         }
 
         setOpen(false);
@@ -105,15 +104,15 @@ function MedicineAdmin(props) {
     }
 
     let schema = yup.object().shape({
-        Doctor_name: yup.string().required('Please enter your Doctor_name'),
-        Doctor_number: yup.string().required('Please enter your Doctor_number'),
+        patient_name: yup.string().required('Please enter your name'),
+        number: yup.number().required('Please enter your number'),
     });
 
     const formik = useFormik({
         validationSchema: schema,
         initialValues: {
-            Doctor_name: '',
-            Doctor_number: '',
+            patient_name: '',
+            number: '',
         },
         onSubmit: values => {
             if (Update) {
@@ -127,16 +126,17 @@ function MedicineAdmin(props) {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
+        
         {
-            field: 'Doctor_name',
-            headerName: 'Doctor_name',
-            type: 'number',
+            field: 'patient_name',
+            headerName: 'patient_name',
+            type: 'text',
             width: 90,
         },
         {
-            field: 'Doctor_number',
-            headerName: 'Doctor_number',
-            type: 'number',
+            field: 'number',
+            headerName: 'number',
+            type: 'text',
             width: 90,
         },
         {
@@ -164,11 +164,11 @@ function MedicineAdmin(props) {
 
     return (
         <div>
-            <h1>Add Doctor</h1>
+            <h1>Add patient</h1>
             <br />
             <div>
                 <Button variant="outlined" onClick={handleClickOpen}>
-                    Add Doctor
+                    Add patient
                 </Button>
                 <br />
                 <div style={{ height: 400, width: '100%' }}>
@@ -187,28 +187,28 @@ function MedicineAdmin(props) {
                             <DialogContent>
                                 <TextField
                                     margin="dense"
-                                    id="Doctor_name"
-                                    name="Doctor_name"
-                                    label="Doctor_name"
+                                    id="patient_name"
+                                    name="patient_name"
+                                    label="patient"
                                     fullWidth
                                     variant="standard"
-                                    value={values.qty}
+                                    value={values.patient_name}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                <p>{errors.Doctor_name && touched.Doctor_name ? errors.Doctor_name : ''}</p>
+                                <p>{errors.patient_name && touched.patient_name ? errors.patient_name : ''}</p>
                                 <TextField
                                     margin="dense"
-                                    id="Doctor_number"
-                                    name="Doctor_number"
-                                    label="Doctor_number"
+                                    id="number"
+                                    name="number"
+                                    label="number"
                                     fullWidth
                                     variant="standard"
-                                    value={values.expiry}
+                                    value={values.number}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                <p>{errors.Doctor_number && touched.Doctor_number ? errors.Doctor_number : ''}</p>
+                                <p>{errors.number && touched.number ? errors.number : ''}</p>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
                                     <Button type='submit'>{Update ? "Updata" : "Add"}</Button>
@@ -217,7 +217,7 @@ function MedicineAdmin(props) {
                         </Form>
                     </Formik>
                 </Dialog>
-                <Dialog open={dopen} onClose={handleClose}>
+                <Dialog open={DoPen} onClose={handleClose}>
                     <DialogTitle>Delete Medicine</DialogTitle>
                     <DialogContent>
                         Are You Sure Delete Data

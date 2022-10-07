@@ -21,6 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import MedicationIcon from '@mui/icons-material/Medication';
 import { NavLink } from 'react-router-dom';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 
 const drawerWidth = 240;
 
@@ -89,7 +90,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function Leyout({children}) {
+export default function Leyout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -103,8 +104,8 @@ export default function Leyout({children}) {
 
     let medicineadmin = [
         { name: 'MedicineAdmin', icons: <MedicationIcon />, to: 'MedicineAdmin' },
-        { name: 'DoctorAdmin', icons: <MedicalServicesIcon />, to: 'DoctorAdmin' }
-
+        { name: 'DoctorAdmin', icons: <MedicalServicesIcon />, to: 'DoctorAdmin' },
+        { name: 'patient', icons: <MedicationLiquidIcon />, to: 'patient'}
     ]
 
     return (
