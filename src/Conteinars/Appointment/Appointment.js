@@ -171,7 +171,7 @@ function Appointment(props) {
                                         type="radio"
                                         name="Gender"
                                         id="Gender"
-                                        value={values.Gender}
+                                        // value={values.Gender}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -182,7 +182,7 @@ function Appointment(props) {
                                         type="radio"
                                         name="Gender"
                                         id="Gender"
-                                        value={values.Gender}
+                                        // value={values.Gender}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
