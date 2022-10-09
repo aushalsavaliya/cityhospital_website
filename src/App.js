@@ -11,6 +11,7 @@ import Headar from './Component/Hedar/Hedar';
 import Footer from './Component/Footer/Footer';
 import Auth from './Conteinars/Auth/Auth';
 import Medicine from './Conteinars/Medicine/Medicine';
+import Listappoinment from './Conteinars/Appointment/Listappoinment';
 // import Leyout from './Admin/Container/Leyout';
 // import MedicineAdmin from './Admin/Component/MedicineAdmin';
 // import DoctorAdmin from './Admin/Component/DoctorAdmin';
@@ -51,6 +52,7 @@ function App() {
         <Route exact path={"/Medicine"} component={Medicine} />
         <Route exact path={"/Appointment"} component={Appointment} />
         <Route exact path={"/auth"} component={Auth} />
+        <Route exact path={"/listAppointment"} component={Listappoinment} />
       </Switch> 
       <Footer />
 

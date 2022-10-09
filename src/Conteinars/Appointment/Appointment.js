@@ -1,10 +1,13 @@
 import React from 'react';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 
 function Appointment(props) {
 
     let appoinschema, initapp;
+
+    const history = useHistory();
 
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -21,26 +24,38 @@ function Appointment(props) {
         email: yup.string().required("please Enter email").email("please Enter Valid email"),
 
         phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').min(10, " required 10 character ").max(10, " maximum 10 character required"),
-        date: yup.string().required("please Enter your Appointment Data")
-            .min(new Date('01-01-2000'))
-            .max(new Date())
-            .required(),
+        date: yup.string().required("Please Enter Date.").matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/, "Enter Date in Format."),
         department: yup.string().required("select your Department"),
         message: yup.string().min(10, "minimum required 10 diget").max(50, "maximum required 50 giget")
             .required("please Enter your message"),
-        Gender: yup.string().required("please select"),
-        checkbox: yup.array().min(1).of(yup.string().required()).required(),
+        gender: yup.string().required("please select"),
+        checkbox: yup.array().min(1).of(yup.string().required()).required()
     }
     initapp = {
         name: '',
         email: '',
         phone: '',
-        date: '',
+        date: '', 
         department: '',
         message: '',
-        Gender: '',
-        checkbox: ''
+        gender: '',
+        checkbox: '',
     }
+
+    const handeladd = ()=> {
+        let localdata = JSON.parse(localStorage.getItem("apt"));
+        console.log(localdata);
+
+        if(localdata === null){
+            localStorage.setItem("apt", JSON.stringify([values]));
+        }else{
+            localdata.push(values);
+            localStorage.setItem("apt", JSON.stringify(localdata));
+        }
+        formik.resetForm();
+        history.push("/listAppointment")
+
+    } 
 
     let schema = yup.object().shape(appoinschema);
 
@@ -48,7 +63,7 @@ function Appointment(props) {
         initialValues: initapp,
         validationSchema: schema,
         onSubmit: values => {
-            console.log(values);
+            handeladd(values);
         },
     });
 
@@ -166,12 +181,11 @@ function Appointment(props) {
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3">
-                                <label>
+                                <label> 
                                     <input
                                         type="radio"
-                                        name="Gender"
-                                        id="Gender"
-                                        // value={values.Gender}
+                                        name="gender"
+                                        id="gender"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -180,15 +194,14 @@ function Appointment(props) {
                                 <label>
                                     <input
                                         type="radio"
-                                        name="Gender"
-                                        id="Gender"
-                                        // value={values.Gender}
+                                        name="gender"
+                                        id="gender"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
                                     Female
                                 </label>
-                                <p>{errors.Gender && touched.Gender ? errors.Gender : ''}</p>
+                                <p>{errors.gender && touched.gender ? errors.gender : ''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
@@ -196,7 +209,7 @@ function Appointment(props) {
                                     <input
                                         type="checkbox"
                                         name="checkbox"
-                                        value={"checkbox"}
+                                        value={"cricket"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -206,7 +219,7 @@ function Appointment(props) {
                                     <input
                                         type="checkbox"
                                         name="checkbox"
-                                        value={"checkbox"}
+                                        value={"Music"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -216,7 +229,7 @@ function Appointment(props) {
                                     <input
                                         type="checkbox"
                                         name="checkbox"
-                                        value={"checkbox"}
+                                        value={"Traveling"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
