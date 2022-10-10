@@ -44,12 +44,13 @@ function Appointment(props) {
 
     const handeladd = ()=> {
         let localdata = JSON.parse(localStorage.getItem("apt"));
-        console.log(localdata);
+
+        let id = Math.floor(Math.random() * 100);
 
         if(localdata === null){
-            localStorage.setItem("apt", JSON.stringify([values]));
+            localStorage.setItem("apt", JSON.stringify([{"id": id , ...values}]));
         }else{
-            localdata.push(values);
+            localdata.push({"id": id , ...values});
             localStorage.setItem("apt", JSON.stringify(localdata));
         }
         formik.resetForm();
