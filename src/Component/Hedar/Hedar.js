@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 function Headar(props) {
     return (
@@ -29,8 +29,8 @@ function Headar(props) {
                     <nav id="navbar" className="navbar order-last order-lg-0">
                         <ul>
                             <li><NavLink className="nav-link scrollto" to={"/"}>Home</NavLink></li>
-                            <li><NavLink className="nav-link scrollto"to={"/Departments"}>Departments</NavLink></li>
-                            <li><NavLink className="nav-link scrollto"to={"/Medicine"}>Medicine</NavLink></li>
+                            <li><NavLink className="nav-link scrollto" to={"/Departments"}>Departments</NavLink></li>
+                            <li><NavLink className="nav-link scrollto" to={"/Medicine"}>Medicine</NavLink></li>
                             <li><NavLink className="nav-link scrollto" to={"/Doctors"}>Doctors</NavLink></li>
                             <li><NavLink className="nav-link scrollto " to={"/About"}>About</NavLink></li>
                             <li><NavLink className="nav-link scrollto" to={"/Contact"}>Contact</NavLink></li>

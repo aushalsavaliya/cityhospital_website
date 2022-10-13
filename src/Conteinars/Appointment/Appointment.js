@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+import { SortGridMenuItems } from '@mui/x-data-grid';
 
 function Appointment(props) {
 
     let appoinschema, initapp;
 
+    const [Update, setUpdate] = useState(false);
+
     const history = useHistory();
+
+    useEffect(() => {
+        console.log(props.location.state);
+
+        if (props.location.state !== null) {
+            formik.setValues(props.location.state);
+
+            setUpdate(true);
+        }
+    }, [])
 
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -35,28 +48,48 @@ function Appointment(props) {
         name: '',
         email: '',
         phone: '',
-        date: '', 
+        date: '',
         department: '',
         message: '',
         gender: '',
-        checkbox: '',
+        checkbox: [],
     }
 
-    const handeladd = ()=> {
+    const handeladd = () => {
         let localdata = JSON.parse(localStorage.getItem("apt"));
 
         let id = Math.floor(Math.random() * 100);
 
-        if(localdata === null){
-            localStorage.setItem("apt", JSON.stringify([{"id": id , ...values}]));
-        }else{
-            localdata.push({"id": id , ...values});
+        if (localdata === null) {
+            localStorage.setItem("apt", JSON.stringify([{ "id": id, ...values }]));
+        } else {
+            localdata.push({ "id": id, ...values });
             localStorage.setItem("apt", JSON.stringify(localdata));
         }
         formik.resetForm();
         history.push("/listAppointment")
 
-    } 
+    }
+
+    const Updatedeta = (data) => {
+
+        const localdata = JSON.parse((localStorage.getItem("apt")));
+
+
+        let udata = localdata.map((l) => {
+            if (l.id === values.id) {
+                return values;
+            } else {
+                return l;
+            }
+        })
+
+        localStorage.setItem("apt", JSON.stringify(udata))
+        history.replace();
+        setUpdate(false)
+        history.push("/listAppointment")
+    }
+
 
     let schema = yup.object().shape(appoinschema);
 
@@ -64,7 +97,12 @@ function Appointment(props) {
         initialValues: initapp,
         validationSchema: schema,
         onSubmit: values => {
-            handeladd(values);
+            if (Update) {
+                Updatedeta(values);
+            } else {
+                handeladd(values);
+            }
+
         },
     });
 
@@ -80,6 +118,11 @@ function Appointment(props) {
                             blandit quam volutpat sollicitudin. Fusce tincidunt sit amet ex in volutpat. Donec lacinia finibus tortor.
                             Curabitur luctus eleifend odio. Phasellus placerat mi et suscipit pulvinar.</p>
                     </div>
+                    <div>
+                        <div>
+                            <NavLink to={"/listAppointment"}>listAppointment</NavLink>
+                        </div>
+                    </div><br />
                     <Formik value={formik}>
                         <Form onSubmit={handleSubmit} action method="post" className="php-email-form">
                             <div className="row">
@@ -182,48 +225,55 @@ function Appointment(props) {
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3">
-                                <label> 
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        id="gender"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    Male
-                                </label>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        id="gender"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    Female
-                                </label>
+
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value={"male"}
+                                    id="gender"
+                                    checked={values.gender === "male"}
+                                    onChange={handleChange} t
+                                    onBlur={handleBlur}
+                                />
+                                Male
+
+
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value={"female"}
+                                    id="gender"
+                                    checked={values.gender === "female"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                Female
+
                                 <p>{errors.gender && touched.gender ? errors.gender : ''}</p>
                                 <div className="validate" />
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="checkbox"
-                                        value={"cricket"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                    />
-                                    cricket
-                                </label>
+
+                                <input
+                                    type="checkbox"
+                                    name="checkbox"
+                                    value={"cricket"}
+                                    checked={values.checkbox.some((h) => h === "cricket")}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                                cricket
+
                                 <label>
                                     <input
                                         type="checkbox"
                                         name="checkbox"
                                         value={"Music"}
+                                        checked={values.checkbox.some((h) => h === "Music")}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
+
                                     Music
                                 </label>
                                 <label>
@@ -231,6 +281,7 @@ function Appointment(props) {
                                         type="checkbox"
                                         name="checkbox"
                                         value={"Traveling"}
+                                        checked={values.checkbox.some((h) => h === "Traveling")}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                     />
@@ -245,7 +296,7 @@ function Appointment(props) {
                                 <div className="error-message" />
                                 <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
                             </div>
-                            <div className="text-center"><button type="submit">Make an Appointment</button></div>
+                            <div className="text-center"><button type="submit">{Update ? "Update an Appointment" : "Make an Appointment"}</button></div>
                         </Form>
                     </Formik>
                 </div>
